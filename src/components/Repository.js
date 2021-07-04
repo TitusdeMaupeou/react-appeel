@@ -7,7 +7,6 @@ import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
 import { Paper } from "@material-ui/core";
 import styles from "./Repository.module.css";
-import { Link } from "react-router-dom";
 
 function ItemPage() {
   const { name } = useParams();
@@ -16,14 +15,13 @@ function ItemPage() {
 
   useEffect(() => {
     fetchItem();
-  }, []);
+  });
 
   const fetchItem = async () => {
     await fetch(`https://api.github.com/repos/gaearon/${name}/commits`)
       .then((resp) => resp.json())
       .then(function (d) {
         setItem(d);
-        console.log(d);
       });
   };
 

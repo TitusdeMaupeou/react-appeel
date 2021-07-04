@@ -19,7 +19,7 @@ const FetchData = (url) => {
       }
     };
     fetchDataFromApi();
-  }, []);
+  });
 
   return [dataState];
 };
