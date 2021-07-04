@@ -8,7 +8,7 @@ Gemaakt met:
   - Material UI
   - CSS modules
 
-Hier licht ik 2 ES6 methodes toe: Dit is een methode die ervoor zorgt dat de state van de favorieten overschreven wordt met een nieuwe state. De nieuwe state wordt dus de payload, in dit geval een id (geen object). De spread operator is in principe niet nodig omdat er maar 1 value overschreven wordt, maar is handig voor als in de toekomst meer values overschreven zouden moeten worden.
+Hier licht ik 2 ES6 methodes toe: Dit is een methode die ervoor zorgt dat de state van de favorieten overschreven wordt met een nieuwe state. De nieuwe state wordt dus de payload, in dit geval een id (geen object).
 
 ```javascript
 export const favouritesReducer = (state = initialState, action) => {
@@ -31,33 +31,33 @@ export const favouritesReducer = (state = initialState, action) => {
   }
 };
 ```
-
-Deze methode maakt gebruik van de Fetch API om op een asynchrone manier data van de Github API op te halen. De state wordt geinitialiseerd als een lege array en wordt overschreven eens de data is omgevormd tot JSON formaat. De file zit in een aparte hooks folder en wordt geexporteerd. Dit zorgt voor modulariteit omdat de presentatie van het component en het ophalen van data gescheiden worden.
+Deze methode maakt gebruik van de Fetch API om op een asynchrone manier data van de Github API op te halen. De state wordt geinitialiseerd als een lege array en wordt overschreven eens de data is omgevormd tot JSON formaat. Eerst heb ik dit gedaan via een aparte hook, maar heb daarna de code gerefactored zodat Redux Thunk instaat voor de asynchrone side effects. De dispatch methode zorgt ervoor dat de setRepos action naar de repo store gestuurd wordt.
 
 ```javascript
-const FetchData = (url) => {
-  const [dataState, setDataState] = useState({ data: [] });
+export const fetchRepos = () => async (dispatch, getState) => {
+  const data = await fetch(API_URL).then((res) => res.json());
 
-  useEffect(() => {
-    const fetchDataFromApi = async () => {
-      try {
-        await fetch(url)
-          .then((resp) => resp.json())
-          .then(function (d) {
-            setDataState({
-              ...dataState,
-              data: d,
-            });
-          });
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchDataFromApi();
-  }, []);
-
-  return [dataState];
+  dispatch(setRepos(data));
 };
+```
+Het ophalen van de data wordt getriggerd net voor het renderen van de app.
+
+```javascript
+const store = createStore(
+  rootReducer,
+  composeEnhancers(applyMiddleware(thunk))
+);
+
+store.dispatch(fetchRepos());
+
+ReactDOM.render(
+  <React.StrictMode>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </React.StrictMode>,
+  document.getElementById("root")
+}
 ```
 
 Stappen:
