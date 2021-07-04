@@ -58,3 +58,7 @@ const FetchData = (url) => {
   return [dataState];
 };
 ```
+
+Stappen:
+
+npm i
