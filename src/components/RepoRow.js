@@ -30,7 +30,6 @@ const RepoRow = ({ row }) => {
             <Link className={styles.link} to={"/" + row.name}>
               {row.name}
             </Link>
-            ''
           </TableCell>
           <TableCell>
             <Link className={styles.link} to={"/" + row.name}>

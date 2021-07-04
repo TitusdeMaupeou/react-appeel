@@ -15,7 +15,7 @@ function ItemPage() {
 
   useEffect(() => {
     fetchItem();
-  });
+  }, []);
 
   const fetchItem = async () => {
     await fetch(`https://api.github.com/repos/gaearon/${name}/commits`)

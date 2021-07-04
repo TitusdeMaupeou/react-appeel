@@ -1,5 +1,4 @@
-import React from "react";
-import FetchData from "../hooks/FetchData";
+import React, { useEffect } from "react";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableHead from "@material-ui/core/TableHead";
@@ -8,11 +7,10 @@ import TableRow from "@material-ui/core/TableRow";
 import { Paper } from "@material-ui/core";
 import RepoRow from "./RepoRow";
 import { useSelector } from "react-redux";
-import { API_URL } from "../config";
 import styles from "./RepoTable.module.css";
 
 const RepoTable = () => {
-  const [dataState] = FetchData(API_URL);
+  const repos = useSelector((state) => state.repoStore.repos.flat(1));
   const favourites = useSelector((state) => state.favouriteStore.favourites);
 
   return (
@@ -30,12 +28,12 @@ const RepoTable = () => {
             </TableRow>
           </TableHead>
           <TableBody className={styles.table}>
-            {dataState.data
+            {repos
               .filter((f) => favourites.includes(f.id))
               .map((row, i) => (
                 <RepoRow key={row.id} row={row}></RepoRow>
               ))}
-            {dataState.data
+            {repos
               .filter((f) => !favourites.includes(f.id))
               .map((row, i) => (
                 <RepoRow key={row.id} row={row}></RepoRow>
