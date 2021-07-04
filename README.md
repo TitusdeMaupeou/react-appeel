@@ -61,4 +61,10 @@ const FetchData = (url) => {
 
 Stappen:
 
+git clone https://github.com/TitusdeMaupeou/react-appeel.git
+
 npm i
+
+npm start
+
+tests: npm run test
