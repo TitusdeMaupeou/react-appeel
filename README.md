@@ -62,10 +62,10 @@ ReactDOM.render(
 
 Stappen:
 
-git clone https://github.com/TitusdeMaupeou/react-appeel.git
+- git clone https://github.com/TitusdeMaupeou/react-appeel.git
 
-npm i
+- npm i
 
-npm start
+- npm start
 
-tests: npm run test
+- tests: npm run test
